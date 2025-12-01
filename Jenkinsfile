@@ -1,37 +1,12 @@
 pipeline {
     agent any
+
     stages {
-        stage('Build Docker Image') {
+        stage('Pull From GitHub') {
             steps {
-                bat 'docker build -t registration:v1 .'
-            }
-        }
-        stage('Push to Docker Hub') {
-            steps {
-                bat 'docker tag registration:v1 akshara4/registration:v1'
-                bat 'docker push akshara4/registration:v1'
-            }
-        }
-        stage('Deploy to Kubernetes') {
-            steps {
-                bat 'kubectl apply -f /Users/aksharagarlapad/Desktop/week-2/deployment.yaml'
-                bat 'kubectl apply -f /Users/aksharagarlapad/Desktop/week-2/service.yaml'
-            }
-        
-        }
-        stage('Automated UI Test') {
-            steps {
-                bat 'python /Users/aksharagarlapad/Desktop/week-2/test_registration.py'
+                git branch: 'main',
+                    url: 'https://github.com/Akshara0405/jenkins.git'
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-
